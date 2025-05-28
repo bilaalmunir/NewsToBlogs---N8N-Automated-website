@@ -4,6 +4,7 @@ import Image from "next/image"
 import { Newsreader } from "next/font/google"
 import { useState, useEffect } from "react"
 import { Calendar, Menu, X } from "lucide-react"
+import { getBlogs } from "./data"
 
 const newsreader = Newsreader({ subsets: ["latin"] })
 
@@ -11,9 +12,16 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    setIsLoaded(true)
+    const fetchBlogs = async () => {
+      const data = await getBlogs()
+      console.log('dataaaa:',data)
+      setBlogs(data)
+      setIsLoaded(true)
+    }
+    fetchBlogs()
   }, [])
 
   // Multiple newspaper editions data
@@ -74,56 +82,6 @@ export default function Home() {
             title: "Conclusion: Embracing the Complexity of the World",
             content:
               "As we navigate these interconnected global challenges, the importance of informed citizenship and international cooperation becomes ever more apparent. The events of this month demonstrate that meaningful change is possible when nations, communities, and individuals work together toward common goals. The path forward requires continued vigilance, innovation, and commitment to sustainable practices across all sectors of society.",
-          },
-        ],
-      },
-    },
-    {
-      date: "2024-05-28",
-      displayDate: "May 28, 2024",
-      headerInfo: {
-        edition: "TECHNOLOGY SPECIAL",
-        title: "The National News",
-        volume: "VOL. XIV - № 1229",
-        date: "MONDAY, MAY 28, 2024",
-        price: "PRICE TEN CENTS",
-      },
-      headlineInfo: {
-        mainTitle: "AI BREAKTHROUGH",
-        subTitle: "QUANTUM COMPUTING REACHES NEW MILESTONE",
-        description: "Revolutionary Quantum Processor Achieves 1000-Qubit Stability",
-      },
-      articleContent: {
-        leftColumn: [
-          "Scientists at the Quantum Research Institute have achieved a major breakthrough in quantum computing, successfully maintaining stability in a 1000-qubit processor for over 24 hours.",
-          "This advancement brings us significantly closer to practical quantum computing applications in cryptography, drug discovery, and climate modeling.",
-        ],
-        rightColumn: [
-          "The implications for cybersecurity are profound, as quantum computers could potentially break current encryption methods while simultaneously providing unbreakable quantum encryption.",
-          "Major tech companies are already investing billions in quantum research, with commercial applications expected within the next decade.",
-        ],
-        imageCaption: "Quantum Laboratory",
-        imageUrl: "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-2163695117.jpg?c=16x9&q=w_800,c_fill",
-      },
-      globalNewsContent: {
-        title: "Technology Roundup: May Edition",
-        introduction:
-          "The technology sector continues to evolve at breakneck speed, with quantum computing leading the charge in revolutionary innovations.",
-        sections: [
-          {
-            title: "Quantum Computing Advances",
-            content:
-              "Multiple research institutions are racing to achieve quantum supremacy in practical applications. The latest breakthrough in qubit stability represents a significant step toward commercial viability.",
-          },
-          {
-            title: "AI and Machine Learning",
-            content:
-              "Artificial intelligence continues to transform industries from healthcare to autonomous transportation. New neural network architectures are enabling more efficient and accurate AI systems.",
-          },
-          {
-            title: "Cybersecurity Evolution",
-            content:
-              "As quantum computing advances, cybersecurity measures are evolving to meet new challenges and opportunities. Post-quantum cryptography is becoming a critical area of research and development.",
           },
         ],
       },
@@ -341,6 +299,10 @@ export default function Home() {
     setIsMenuOpen(false)
   }
 
+  if (!isLoaded) {
+    return <div>Loading...</div>
+  }
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 p-2 sm:p-4 md:p-6 lg:p-8 xl:p-12">
       {/* Tabs Section */}
@@ -425,7 +387,7 @@ export default function Home() {
             <h1
               className={`${newsreader.className} text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-amber-950 mb-1 sm:mb-2 drop-shadow-sm leading-tight`}
             >
-              {currentEdition.headerInfo.title}
+              {currentEdition.headerInfo.title}s
             </h1>
             <div className="flex flex-col sm:flex-row justify-between text-xs sm:text-sm text-amber-800 border-t-2 border-b-2 border-amber-800 py-2 bg-amber-50/50 gap-1 sm:gap-0">
               <span className="font-medium">{currentEdition.headerInfo.volume}</span>
@@ -437,7 +399,7 @@ export default function Home() {
           {/* Main Headline */}
           <div className="text-center mb-4 sm:mb-6 md:mb-8">
             <h2
-              className={`${newsreader.className} text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-amber-950 mb-3 sm:mb-4 md:mb-6 leading-none drop-shadow-md`}
+              className={`${newsreader.className} text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-8xl font-black text-amber-950 mb-3 sm:mb-4 md:mb-6 leading-none drop-shadow-md`}
             >
               {currentEdition.headlineInfo.mainTitle}
             </h2>
@@ -463,7 +425,7 @@ export default function Home() {
                       : ""
                   }`}
                 >
-                  {paragraph}
+                 {paragraph}
                 </p>
               ))}
             </div>
