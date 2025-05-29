@@ -1,33 +1,23 @@
-"use server"
-import prisma from '@/lib/prisma'
+// supabase/functions/get-blogs.ts
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export async function getBlogs() {
   try {
-    const response = await fetch('/api/blogs', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store'
-    })
-    if (!response.ok) throw new Error('Failed to fetch blogs')
-    return response.json()
+    const { data, error } = await supabase
+      .from('blog')
+      .select('*')
+      .order('createdAt', { ascending: false })
+
+    if (error) throw error
+    
+    return data
   } catch (error) {
     console.error('Error fetching blogs:', error)
-    return []
-  }
-}
-
-export async function getBlogById(id: number) {
-  try {
-    const blog = await prisma.blog.findUnique({
-      where: {
-        id: id
-      }
-    })
-    return blog
-  } catch (error) {
-    console.error('Error fetching blog:', error)
-    return null
+    throw new Error('Failed to fetch blogs')
   }
 }
