@@ -14,8 +14,8 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --background: 44 39% 83%;
+    --foreground: 20 14.3% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
@@ -90,5 +90,13 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Times New Roman", Times, serif;
   }
+}
+
+@font-face {
+  font-family: "OldNewspaperTypes";
+  src: url("https://fonts.cdnfonts.com/css/old-newspaper-types") format("woff2");
+  font-weight: normal;
+  font-style: normal;
 }

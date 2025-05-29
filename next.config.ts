@@ -4,8 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'media.cnn.com',
-        pathname: '/api/v1/images/**',
+        hostname: '**',
       },
     ],
   },
