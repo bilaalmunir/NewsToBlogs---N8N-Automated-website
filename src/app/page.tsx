@@ -140,7 +140,7 @@ export default function Home() {
         articleContent: {
           leftColumn: [leftColumn],
           imageUrl: imageUrl,
-          imageCaption: "Exclusive Photograph - The National News",
+          imageCaption: "Exclusive Photograph - The Automated News",
           rightColumn: [rightColumn],
         },
         globalNewsContent: {
@@ -159,7 +159,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 flex items-center justify-center">
-        <div className="text-2xl font-serif text-amber-800">Loading The National News...</div>
+        <div className="text-2xl font-serif text-amber-800">Loading The Automated News...</div>
       </div>
     )
   }
